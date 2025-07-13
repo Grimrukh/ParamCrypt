@@ -1,15 +1,15 @@
 ﻿using System.Security.Cryptography;
-using System.Text;
 
 namespace ParamCrypt;
 
 public static class Program
 {
-    static readonly byte[] ds3RegulationKey = Encoding.ASCII.GetBytes("ds3#jn/8_7(rsY9pg55GFN7VFL#+3n/)");
-    static readonly byte[] erRegulationKey = {
+    static readonly byte[] DS3_REGULATION_KEY = "ds3#jn/8_7(rsY9pg55GFN7VFL#+3n/)"u8.ToArray();
+    static readonly byte[] ER_REGULATION_KEY =
+    [
         0x99, 0xBF, 0xFC, 0x36, 0x6A, 0x6B, 0xC8, 0xC6, 0xF5, 0x82, 0x7D, 0x09, 0x36, 0x02, 0xD6, 0x76,
-        0xC4, 0x28, 0x92, 0xA0, 0x1C, 0x20, 0x7F, 0xB0, 0x24, 0xD3, 0xAF, 0x4E, 0x49, 0x3F, 0xEF, 0x99,
-    };
+        0xC4, 0x28, 0x92, 0xA0, 0x1C, 0x20, 0x7F, 0xB0, 0x24, 0xD3, 0xAF, 0x4E, 0x49, 0x3F, 0xEF, 0x99
+    ];
 
     /// <summary>
     /// Decrypts or encrypts DS3 `Data0.bdt` and Elden Ring `regulation.bin` files, which are both just encrypted
@@ -55,22 +55,22 @@ public static class Program
             {
                 case "Data0.bdt":
                     doEncrypt = false;
-                    key = ds3RegulationKey;
+                    key = DS3_REGULATION_KEY;
                     outputFilePath = GetPathWithExtension(inputFilePath, ".parambnd.dcx");
                     break;
                 case "Data0.parambnd.dcx":
                     doEncrypt = true;
-                    key = ds3RegulationKey;
+                    key = DS3_REGULATION_KEY;
                     outputFilePath = GetPathWithExtension(inputFilePath, ".bdt");
                     break;
                 case "regulation.bin":
                     doEncrypt = false;
-                    key = erRegulationKey;
+                    key = ER_REGULATION_KEY;
                     outputFilePath = GetPathWithExtension(inputFilePath, ".parambnd.dcx");
                     break;
                 case "regulation.parambnd.dcx":
                     doEncrypt = true;
-                    key = erRegulationKey;
+                    key = ER_REGULATION_KEY;
                     outputFilePath = GetPathWithExtension(inputFilePath, ".bin");
                     break;
                 default:
@@ -94,10 +94,10 @@ public static class Program
             switch (gameType)
             {
                 case "ds3":
-                    key = ds3RegulationKey;
+                    key = DS3_REGULATION_KEY;
                     break;
                 case "er":
-                    key = erRegulationKey;
+                    key = ER_REGULATION_KEY;
                     break;
                 default:
                     Console.WriteLine($"ERROR: Invalid `gameType`: {gameType}. Must be `ds3` or `er`.");
